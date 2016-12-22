@@ -1,0 +1,10 @@
+.DS_Store
+node_modules/
+modules/mongodb/node_modules
+npm-debug.log
+test/e2e/reports
+selenium-debug.log
+.idea/
+*.swp
+modules/parse.js
+modules/mongodb/t.js
