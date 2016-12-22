@@ -1,0 +1,6 @@
+npm-debug.log
+node_modules
+modules/mongodb/node_modules
+modules/parse.js
+modules/mongodb/t.js
+
