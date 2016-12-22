@@ -8,3 +8,4 @@ selenium-debug.log
 *.swp
 modules/parse.js
 modules/mongodb/t.js
+/
