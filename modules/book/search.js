@@ -44,11 +44,11 @@ function searchByName(params, callback) {
 }
 
 function searchByID(params, callback) {
-    get.getFromDBbyID(db, params.Info, function(result) {
-	if (!result.Result) {
+    get.getFromDBbyID(mongo.db, params.id, function(result) {
+	if (!result) {
 	    callback('err');
 	} else {
-	    callback(result.Info);
+	    callback(result);
 	}
     });
 }

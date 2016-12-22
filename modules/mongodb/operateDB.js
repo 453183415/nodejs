@@ -10,10 +10,13 @@ function getFromDBbyName(db, info, callback) {
 
 function getFromDBbyID(db, info, callback) {
 	var DoubanInfo =db.collection('DoubanInfo');
-        DoubanInfo.findOne({ 'ID': info }).toArray( function(err, result) {
+        DoubanInfo.find({ 'ID': info }).toArray( function(err, result) {
             if (err) {
                 callback('false');
             }
+	    if(!result.length){
+		return callback('not fond the book by id');
+	    }
             callback(result);
         });
 }

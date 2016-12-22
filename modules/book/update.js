@@ -1,11 +1,11 @@
 
-var db = require('../mongodb/datebase');
+var mongo = require('../mongodb/datebase');
 var updateDB = require("../mongodb/operateDB");
 
 function update(paramas,callback){
     var id = paramas.id;
     var info = paramas.info;
-    updateDB.updateDB(db,id,info,function(result){
+    updateDB.updateDB(mongo.db,id,info,function(result){
 	callback(result);
     });
 
