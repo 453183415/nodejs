@@ -49,10 +49,12 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+/*connect to db*/
 mongo.conect('mongodb://127.0.0.1:27017/mydb',function(err,db){
     if(err){
 	console.log('connect to db failed');
     }
 });
 
-    module.exports = app;
+module.exports = app;
