@@ -4,8 +4,9 @@ var get = require("../mongodb/operateDB");
 var thenjs = require('thenjs');
 
 function searchByName(params, callback) {
+    console.log(params);
     thenjs(function(cont){
-	get.getFromDBbyName(mongo.db, params.id,callback);
+	get.getFromDBbyName(mongo.db, params.name,callback);
     }).then(function(cont,result) {
 	if (!result) {
 	    callback('err');

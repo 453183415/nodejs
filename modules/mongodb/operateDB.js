@@ -4,6 +4,9 @@ function getFromDBbyName(db, info, callback) {
             if (err) {
                 callback('false');
             }
+	    if(!result){
+		return callback('not found');
+	    }
             return callback(result);
         });
 }
