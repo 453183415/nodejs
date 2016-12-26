@@ -9,37 +9,40 @@ function searchByName(params,callback) {
 	    if (!result) {
 		cont('err');
 	    } 
-	    console.log(result);
 	    if (result) {
 		// 如果数据库里没有查询到相关信息，则从豆瓣获取信息，存入数据库并返回
 		if (result == 'null') {
 		    thenjs(function(cont){
 			request({
 			    uri: 'https://api.douban.com/v2/book/search?q=' + encodeURI(params.Info) + '&count=3'
+			},function(err,res,body){
+			    if (body.indexOf('Not Found') != -1) {
+				console.log('Not Found');
+				return cont('error');
+			    }
+			    var doubandata = JSON.parse(body);
+			    var books = doubandata.books;
+			    var book = [];
+			    for (i in books) {
+				id = books[i].id;
+				isbn = books[i].isbn13;
+				name = books[i].title;
+				author = books[i].author;
+				publish_year = books[i].pubdate;
+				introduce = books[i].summary;
+				price = books[i].price;
+				book.push({ ID: id, ISBN: isbn, Name: name, Author: author, Introduce: introduce, Price: price });
+				//将豆瓣上的信息存入数据库
+				get.writeToDB({ ID: id, ISBN: isbn, Name: name, Author: author, Introduce: introduce, Price: price });
+			    }
+			    return cont(err,book);
 			});
-		    }).then(function(err, res, body) {
-			if (body.indexOf('Not Found') != -1) {
-			    console.log('Not Found');
-			    return;
-			}
-			var doubandata = JSON.parse(body);
-			var books = doubandata.books;
-			var book = [];
-			for (i in books) {
-			    id = books[i].id;
-			    isbn = books[i].isbn13;
-			    name = books[i].title;
-			    author = books[i].author;
-			    publish_year = books[i].pubdate;
-			    introduce = books[i].summary;
-			    price = books[i].price;
-			    book.push({ ID: id, ISBN: isbn, Name: name, Author: author, Introduce: introduce, Price: price });
-			    //将豆瓣上的信息存入数据库
-			    get.writeToDB({ ID: id, ISBN: isbn, Name: name, Author: author, Introduce: introduce, Price: price });
-			}
+		    }).then(function(err,book) {
 			return cont(book);
-		    },function(cont,err){return cont('error');});
-		} 
+		    },function(cont,err){
+			return cont('error');
+		    });
+		}
 		return  cont(null,result);
 	    }
 	});
